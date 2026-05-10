@@ -1,6 +1,6 @@
 {
   "name": "streamthing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Compagnon desktop Tauri/Solid pour piloter une sélection Syncthing via .stignore.",
   "type": "module",
   "scripts": {
@@ -10,8 +10,11 @@
     "build:web": "vite build",
     "streamthing": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/streamthing.ps1",
     "test:file-tree": "node scripts/smoke-file-tree-utils.mjs",
+    "build:cli": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-sidecars.ps1",
+    "prepare:sidecars": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-sidecars.ps1",
     "build:desktop": "tauri build --no-bundle --ci",
-    "build:desktop:bundle": "tauri build --ci",
+    "build:desktop:bundle": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/build-desktop-bundle.ps1",
+    "package:release": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/package-release.ps1",
     "benchmark:syncthing-ui": "node pocs/syncthing-ui-watch-benchmark/benchmark.mjs",
     "serve": "vite preview",
     "tauri": "tauri"

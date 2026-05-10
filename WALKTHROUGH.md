@@ -12,24 +12,30 @@ http://127.0.0.1:8384
 
 StreamThing reads Syncthing's local `config.xml` to find the REST URL, API key, folders and devices.
 
-## 2. Install StreamThing Dependencies
+## 2. Install StreamThing
+
+Download the latest `StreamThing_*_x64-setup.exe` from GitHub Releases and run it.
+
+Open a new terminal and verify the CLI:
 
 ```powershell
-npm install
+streamthing --version
 ```
+
+If Windows cannot find `streamthing`, close and reopen the terminal so it reloads your user `PATH`.
 
 ## 3. List Folders
 
 Show active folders:
 
 ```powershell
-npm run streamthing -- list-folders -OnlyActive
+streamthing list-folders --only-active
 ```
 
 Show folders shared with a specific Syncthing device:
 
 ```powershell
-npm run streamthing -- list-folders -Device "My Laptop" -OnlyActive
+streamthing list-folders --device "My Laptop" --only-active
 ```
 
 Use the folder `Id` from this output in later commands.
@@ -37,7 +43,7 @@ Use the folder `Id` from this output in later commands.
 ## 4. Check Folder Status
 
 ```powershell
-npm run streamthing -- status -FolderId "my-folder-id"
+streamthing status --folder-id "my-folder-id"
 ```
 
 Look for:
@@ -51,13 +57,13 @@ Look for:
 Launch by folder:
 
 ```powershell
-npm run streamthing -- launch -FolderId "my-folder-id" -StopExisting
+streamthing launch --folder-id "my-folder-id" --stop-existing
 ```
 
 Launch by device:
 
 ```powershell
-npm run streamthing -- launch -Device "My Laptop" -StopExisting
+streamthing launch --device "My Laptop" --stop-existing
 ```
 
 The CLI writes a one-shot startup config outside the repository. StreamThing consumes it at startup, opens the selected folder, then deletes that startup file.
@@ -79,10 +85,23 @@ StreamThing asks Syncthing for a scan after save. It does not request a scan for
 
 Open the folder and check `.stignore`. The generated file should contain a deny-by-default pattern plus exceptions for selected paths.
 
+## Source Build Fallback
+
+If you build from source instead of using the installer:
+
+```powershell
+npm install
+npm run build:cli
+npm run build:desktop
+npm run streamthing -- list-folders -OnlyActive
+```
+
+The PowerShell `npm run streamthing` command is kept as a source-tree fallback. The installed release command is `streamthing`.
+
 ## Troubleshooting
 
 - If no folder appears, check that Syncthing is running and has a `config.xml`.
-- If a folder is paused, either unpause it in Syncthing or add `-AllowPaused` for inspection-only workflows.
+- If a folder is paused, either unpause it in Syncthing or add `--allow-paused` for inspection-only workflows.
 - If remote database browsing fails, StreamThing should still show local files.
-- If the app does not switch folders, relaunch with `-StopExisting`.
-- If the desktop build fails, verify Rust and Tauri prerequisites, then run `npm run build` before `npm run build:desktop`.
+- If the app does not switch folders, relaunch with `--stop-existing`.
+- If the desktop build fails from source, verify Rust and Tauri prerequisites, then run `npm run build` before `npm run build:desktop`.

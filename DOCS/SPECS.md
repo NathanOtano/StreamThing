@@ -13,7 +13,7 @@ StreamThing v1 must let a local user:
 - filter files by name, parent folder, extension and file family;
 - select files and folders that should remain synchronized;
 - read, generate and save `.stignore`;
-- request a Syncthing scan only on deliberate actions: save, `.stignore` change, manual refresh or explicit CLI `-Scan`;
+- request a Syncthing scan only on deliberate actions: save, `.stignore` change, manual refresh or explicit CLI `--scan`;
 - launch the app from a CLI on a chosen folder or device without hand-editing browser storage.
 
 ## Out of Scope
@@ -29,7 +29,9 @@ StreamThing v1 must let a local user:
 
 - `src/`: Solid UI, app state, filters, file tree and `.stignore` orchestration.
 - `src-tauri/`: native commands for Syncthing API calls, filesystem reads/writes, watcher and path opening.
-- `scripts/streamthing.ps1`: public CLI for listing folders, checking status, preparing startup config, scanning and launching.
+- `src-tauri/cli/`: native CLI for listing folders, checking status, preparing startup config, scanning and launching.
+- `scripts/streamthing.ps1`: source-tree CLI fallback for development.
+- `scripts/package-release.ps1`: release asset packager for installer, standalone CLI, source archive and checksums.
 - `pocs/`: development-only probes and benchmarks.
 
 The app and the CLI communicate through a one-shot startup file under the platform app-data directory. The Tauri app consumes that file on launch, applies the selected folder, stores the entry in local UI history, then deletes the startup file.
@@ -46,13 +48,13 @@ Commands:
 
 Useful options:
 
-- `-Device "<device name>"`: restrict folders to one Syncthing device.
-- `-FolderId "<folder id>"`: choose one folder exactly.
-- `-OnlyActive`: hide paused folders in listing.
-- `-AllowPaused`: permit actions on paused folders.
-- `-StopExisting`: close a running StreamThing before relaunching.
-- `-Scan`: request a scan during launch.
-- `-Json`: machine-readable output.
+- `--device "<device name>"` / `-Device "<device name>"`: restrict folders to one Syncthing device.
+- `--folder-id "<folder id>"` / `-FolderId "<folder id>"`: choose one folder exactly.
+- `--only-active` / `-OnlyActive`: hide paused folders in listing.
+- `--allow-paused` / `-AllowPaused`: permit actions on paused folders.
+- `--stop-existing` / `-StopExisting`: close a running StreamThing before relaunching.
+- `--scan` / `-Scan`: request a scan during launch.
+- `--json` / `-Json`: machine-readable output.
 
 ## UI Decision
 
@@ -64,7 +66,9 @@ Useful options:
 - Examples must use placeholder values.
 - The CLI must read secrets from local Syncthing configuration at runtime and must not print the API key.
 - Generated local artifacts must stay ignored or outside the repository.
-- Release artifacts should be built from the tracked source tree after privacy and secret scans.
+- Release artifacts must be built from the tracked source tree after privacy and secret scans.
+- Public release assets must include a Windows installer, a standalone CLI executable and `SHA256SUMS.txt`.
+- Release builds should remap local source paths so published binaries do not retain the build checkout path.
 
 ## Verification
 
@@ -72,9 +76,10 @@ Required before a release:
 
 ```powershell
 npm run test:file-tree
-npm run streamthing -- list-folders -OnlyActive -Json
 npm run build
+npm run build:cli
 npm run build:desktop
+npm run package:release
 ```
 
 For privacy review:

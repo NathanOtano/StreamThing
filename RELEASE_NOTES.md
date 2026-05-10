@@ -1,23 +1,30 @@
-# StreamThing v0.1.0
-
-Initial source release.
+# StreamThing v0.1.1
 
 ## Highlights
 
-- Desktop app for Syncthing selective synchronization via `.stignore`.
-- Local Syncthing REST API connection.
-- File tree with local fallback when remote database browsing is unavailable.
-- Filters by name, folder, extension and file family.
-- `.stignore` generation and save flow.
-- CLI for listing folders, checking status, preparing launch config and starting the desktop app.
-- User-focused setup docs and examples.
+- Windows installer for the desktop app.
+- Installed `streamthing` command for folder listing, status checks, scan requests and app launch.
+- Standalone CLI executable published as a release asset.
+- Release packaging now produces `SHA256SUMS.txt`.
+- Public setup docs now start from a fresh user installation path.
 
-## Quick Commands
+## Install
+
+Download `StreamThing_*_x64-setup.exe` from this release, run it, then open a new terminal:
+
+```powershell
+streamthing --version
+streamthing list-folders --only-active
+streamthing launch --folder-id "my-folder-id" --stop-existing
+```
+
+The installer is currently unsigned.
+
+## Source Build
 
 ```powershell
 npm install
-npm run streamthing -- list-folders -OnlyActive
-npm run streamthing -- launch -FolderId "my-folder-id" -StopExisting
+npm run test:file-tree
+npm run build
 npm run build:desktop
 ```
-

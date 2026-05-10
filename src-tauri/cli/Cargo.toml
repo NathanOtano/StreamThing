@@ -1,0 +1,12 @@
+[package]
+name = "streamthing-cli"
+version = "0.1.1"
+description = "Command line companion for StreamThing"
+authors = ["StreamThing contributors"]
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.11.20", features = ["blocking", "json"] }
+roxmltree = "0.20"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

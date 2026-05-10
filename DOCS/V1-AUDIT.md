@@ -18,7 +18,7 @@ StreamThing v1 is a local Syncthing companion focused on `.stignore` generation 
 | `.stignore` read/write | Implemented | `src-tauri/src/stignore.rs` |
 | Nested path normalization | Implemented | `src/utils/fileTreeUtils.js`, `npm run test:file-tree` |
 | Controlled Syncthing scans | Implemented | scans on save, manual refresh, `.stignore` change or explicit CLI `-Scan` |
-| CLI launch workflow | Implemented | `scripts/streamthing.ps1`, startup config consumed by Tauri |
+| CLI launch workflow | Implemented | native `streamthing-cli`, source fallback `scripts/streamthing.ps1`, startup config consumed by Tauri |
 | Privacy-safe examples and runtime config | Implemented | README, specs, manifest and ignored runtime outputs |
 
 ## Remaining Limits

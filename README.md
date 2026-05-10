@@ -1,93 +1,100 @@
 # StreamThing
 
-StreamThing is a small desktop companion for Syncthing. It helps you review a Syncthing folder, select what should stay synchronized, and write the matching `.stignore` file from a local interface.
-
-The v1 target is intentionally narrow:
-
-- connect to the local Syncthing REST API;
-- list folders from your Syncthing configuration;
-- open a desktop UI on one chosen folder;
-- compare local files with the Syncthing database when that database is available;
-- keep working from the local file tree when a folder is paused or remote browsing is unavailable;
-- generate and save `.stignore`;
-- ask Syncthing for a scan only when you explicitly refresh or save.
+StreamThing is a small Windows desktop companion for Syncthing. It helps you open one Syncthing folder, review what is present locally, choose what should stay synchronized, and save the matching `.stignore` rules.
 
 StreamThing does not sync files by itself. Syncthing remains the synchronization engine.
 
-## Screens
+## What It Does
 
-- Settings: Syncthing URL, API key, folder ID and local folder path.
-- File tree: local and remote entries merged when possible.
-- Filters: filename, folder, extension and file-family filters.
-- Selection: checked items are kept in sync through generated `.stignore` exceptions.
+- Reads your local Syncthing configuration.
+- Lists available Syncthing folders from the command line.
+- Opens the desktop app on one chosen folder.
+- Shows a local file tree and uses the Syncthing database when available.
+- Generates and saves `.stignore` rules for selective sync.
+- Requests a Syncthing scan only when you explicitly refresh, save or ask for one.
 
-## Requirements
+## Install
 
-- Windows for the current desktop build path.
-- Syncthing running locally.
-- Node.js and npm for development commands.
-- Rust and the Tauri prerequisites for desktop builds.
-
-The CLI reads the Syncthing API key from your local Syncthing `config.xml`. It does not print the key, and generated startup configuration is stored outside the repository.
-
-## Quick Start
-
-Install dependencies:
+1. Download the latest Windows installer from the GitHub Releases page.
+2. Run `StreamThing_*_x64-setup.exe`.
+3. Open a new terminal.
+4. Check the installed CLI:
 
 ```powershell
-npm install
+streamthing --version
 ```
 
-List active Syncthing folders:
+The installer adds the `streamthing` command to your user `PATH`. If the command is not found immediately after installation, close and reopen your terminal.
+
+The current installer is unsigned, so Windows may show a publisher warning.
+
+## First Use
+
+Make sure Syncthing is running locally, then list active folders:
 
 ```powershell
-npm run streamthing -- list-folders -OnlyActive
+streamthing list-folders --only-active
 ```
 
-List active folders shared with one known Syncthing device:
+List folders shared with one Syncthing device:
 
 ```powershell
-npm run streamthing -- list-folders -Device "My Laptop" -OnlyActive
+streamthing list-folders --device "My Laptop" --only-active
 ```
 
-Launch the app on the first active matching folder:
+Launch StreamThing on a specific folder:
 
 ```powershell
-npm run streamthing -- launch -Device "My Laptop" -StopExisting
+streamthing launch --folder-id "my-folder-id" --stop-existing
 ```
 
-Launch the app on a specific folder:
+Launch StreamThing on the first active folder shared with a device:
 
 ```powershell
-npm run streamthing -- launch -FolderId "my-folder-id" -StopExisting
+streamthing launch --device "My Laptop" --stop-existing
 ```
 
 Check a folder before launching:
 
 ```powershell
-npm run streamthing -- status -FolderId "my-folder-id"
+streamthing status --folder-id "my-folder-id"
 ```
 
 ## Development
 
+For source builds, install Node.js, Rust and the Tauri prerequisites.
+
 ```powershell
+npm install
 npm run test:file-tree
 npm run build
+npm run build:cli
 npm run build:desktop
 ```
 
-`npm run build:desktop` builds the Tauri executable without creating an installer bundle.
+Build the Windows installer bundle:
+
+```powershell
+npm run build:desktop:bundle
+```
+
+Create a release folder with installer, standalone CLI, source archive and checksums:
+
+```powershell
+npm run package:release
+```
 
 ## Safety Notes
 
 - Keep your Syncthing API key private.
-- Do not commit generated local startup files.
-- Use `-AllowPaused` only when you intentionally want to inspect or launch a paused Syncthing folder.
-- Use `-Scan` only when you want StreamThing to request a Syncthing scan during launch.
+- StreamThing reads the API key from your local Syncthing `config.xml`; it does not print it in CLI output.
+- Startup configuration is written outside the repository and consumed on app launch.
+- Use `--allow-paused` only when you intentionally want to inspect or launch a paused Syncthing folder.
+- Use `--scan` only when you want StreamThing to request a Syncthing scan.
 
 ## More Docs
 
-- [Product and technical specs](DOCS/SPECS.md)
 - [Walkthrough](WALKTHROUGH.md)
 - [Technical notes](README.tech.md)
+- [Product and technical specs](DOCS/SPECS.md)
 - [UI and observability decision](DOCS/DECISION-UI-OBSERVABILITY.md)
