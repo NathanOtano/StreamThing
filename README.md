@@ -91,4 +91,3 @@ npm run build:desktop
 - [Walkthrough](WALKTHROUGH.md)
 - [Technical notes](README.tech.md)
 - [UI and observability decision](DOCS/DECISION-UI-OBSERVABILITY.md)
-- [Public release audit](DOCS/PUBLIC-RELEASE-AUDIT.md)

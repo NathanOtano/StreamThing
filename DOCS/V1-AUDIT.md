@@ -19,7 +19,7 @@ StreamThing v1 is a local Syncthing companion focused on `.stignore` generation 
 | Nested path normalization | Implemented | `src/utils/fileTreeUtils.js`, `npm run test:file-tree` |
 | Controlled Syncthing scans | Implemented | scans on save, manual refresh, `.stignore` change or explicit CLI `-Scan` |
 | CLI launch workflow | Implemented | `scripts/streamthing.ps1`, startup config consumed by Tauri |
-| Public-release privacy pass | Implemented | `DOCS/PUBLIC-RELEASE-AUDIT.md` |
+| Privacy-safe examples and runtime config | Implemented | README, specs, manifest and ignored runtime outputs |
 
 ## Remaining Limits
 

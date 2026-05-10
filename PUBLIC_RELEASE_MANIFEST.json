@@ -2,10 +2,10 @@
   "tool": "StreamThing",
   "version": "0.1.0",
   "mode": "source-public",
-  "approved_publication_scope": "public source repository plus public source release asset",
+  "approved_publication_scope": "source repository plus source release asset",
   "published_assets": [
     {
-      "name": "streamthing-v0.1.0-public-source.zip",
+      "name": "streamthing-v0.1.0-source.zip",
       "type": "source-archive",
       "contains_binaries": false
     }

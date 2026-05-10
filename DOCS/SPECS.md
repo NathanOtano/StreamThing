@@ -64,7 +64,7 @@ Useful options:
 - Examples must use placeholder values.
 - The CLI must read secrets from local Syncthing configuration at runtime and must not print the API key.
 - Generated local artifacts must stay ignored or outside the repository.
-- A public release must be created from a clean source archive or history-scrubbed public branch, not from private development history that may contain local paths.
+- Release artifacts should be built from the tracked source tree after privacy and secret scans.
 
 ## Verification
 

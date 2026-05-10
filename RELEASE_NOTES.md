@@ -1,6 +1,6 @@
 # StreamThing v0.1.0
 
-First public source release.
+Initial source release.
 
 ## Highlights
 
@@ -10,7 +10,7 @@ First public source release.
 - Filters by name, folder, extension and file family.
 - `.stignore` generation and save flow.
 - CLI for listing folders, checking status, preparing launch config and starting the desktop app.
-- Privacy-cleaned public docs and examples.
+- User-focused setup docs and examples.
 
 ## Quick Commands
 
@@ -21,6 +21,3 @@ npm run streamthing -- launch -FolderId "my-folder-id" -StopExisting
 npm run build:desktop
 ```
 
-## Publishing Note
-
-Publish this release from a clean source archive or a public repository initialized from the cleaned tree. Do not publish private development history.
