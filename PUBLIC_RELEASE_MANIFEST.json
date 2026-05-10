@@ -1,0 +1,74 @@
+{
+  "tool": "StreamThing",
+  "version": "0.1.0",
+  "mode": "source-public",
+  "approved_publication_scope": "public source repository plus public source release asset",
+  "published_assets": [
+    {
+      "name": "streamthing-v0.1.0-public-source.zip",
+      "type": "source-archive",
+      "contains_binaries": false
+    }
+  ],
+  "excluded_classes": [
+    "private git history",
+    "machine-local paths",
+    "personal machine names",
+    "private sync profiles",
+    "secrets and credentials",
+    "runtime state",
+    "dependency folders",
+    "build outputs"
+  ],
+  "checks": [
+    {
+      "name": "history-clean",
+      "status": "pass",
+      "evidence": "new public repository initialized from a clean source archive, with no private branches or tags"
+    },
+    {
+      "name": "private-identifier-scan",
+      "status": "pass",
+      "evidence": "targeted rg scan for known private names, machine identifiers, and local path fragments returned no matches"
+    },
+    {
+      "name": "secret-pattern-scan",
+      "status": "pass",
+      "evidence": "targeted rg scan for common token, API key, and private key patterns returned no matches"
+    },
+    {
+      "name": "npm-clean-install",
+      "status": "pass",
+      "evidence": "npm ci completed successfully from the public staging tree"
+    },
+    {
+      "name": "npm-audit",
+      "status": "pass",
+      "evidence": "npm audit reported zero vulnerabilities"
+    },
+    {
+      "name": "frontend-smoke",
+      "status": "pass",
+      "evidence": "npm run test:file-tree completed successfully"
+    },
+    {
+      "name": "web-build",
+      "status": "pass",
+      "evidence": "npm run build completed successfully"
+    },
+    {
+      "name": "desktop-build",
+      "status": "pass",
+      "evidence": "npm run build:desktop completed successfully with --no-bundle --ci"
+    },
+    {
+      "name": "binary-publication",
+      "status": "not_applicable",
+      "evidence": "no executable or installer is included in this public release"
+    }
+  ],
+  "limitations": [
+    "This release is source-only; users build the desktop executable locally.",
+    "No installer, code signing, or auto-update channel is published for v0.1.0."
+  ]
+}
