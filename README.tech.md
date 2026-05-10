@@ -9,7 +9,7 @@ StreamThing is a desktop app built with `Tauri + Solid`.
 - `src-tauri/`: native commands for Syncthing, filesystem access, watcher and path opening.
 - `scripts/streamthing.ps1`: CLI for terminal and automation workflows.
 - `pocs/`: development-only probes and benchmarks.
-- `DOCS/`: specs, release audit and architecture decisions.
+- `DOCS/`: specs and architecture decisions.
 
 ## CLI Behavior
 
@@ -36,7 +36,7 @@ npm run streamthing -- launch -FolderId "my-folder-id" -StopExisting -Json
 - CLI JSON output intentionally omits the API key.
 - The startup file is outside the repo and is consumed at launch.
 - Generated benchmark output is written under ignored `out/` folders.
-- Public releases must be created from a source archive or clean public branch, not from a private development history.
+- Release artifacts should be built from the tracked source tree after privacy and secret scans.
 
 ## UI Choice
 
