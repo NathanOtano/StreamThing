@@ -1,4 +1,8 @@
 !macro NSIS_HOOK_POSTINSTALL
+  IfFileExists "$INSTDIR\streamthing-desktop.exe" 0 streamthing_legacy_delete_done
+    Delete "$INSTDIR\streamthing.exe"
+  streamthing_legacy_delete_done:
+
   ReadRegStr $0 HKCU "Environment" "Path"
   ${StrLoc} $1 "$0" "$INSTDIR" ">"
   StrCmp "$1" "" 0 streamthing_path_done

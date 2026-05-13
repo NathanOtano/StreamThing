@@ -12,6 +12,7 @@ StreamThing v1 must let a local user:
 - keep the UI usable when Syncthing remote browsing is unavailable;
 - filter files by name, parent folder, extension and file family;
 - select files and folders that should remain synchronized;
+- preserve directory entries as folders when local and Syncthing database listings are merged;
 - read, generate and save `.stignore`;
 - request a Syncthing scan only on deliberate actions: save, `.stignore` change, manual refresh or explicit CLI `--scan`;
 - launch the app from a CLI on a chosen folder or device without hand-editing browser storage.
@@ -45,6 +46,8 @@ Commands:
 - `configure`: write startup config without launching.
 - `launch`: write startup config and start the desktop app.
 - `scan`: request a Syncthing scan for one active folder.
+
+The installed `streamthing` command must resolve to the CLI wrapper, not to the desktop GUI executable.
 
 Useful options:
 
@@ -81,6 +84,8 @@ npm run build:cli
 npm run build:desktop
 npm run package:release
 ```
+
+Runtime acceptance for the desktop app also requires a Syncthing sandbox check that selects a folder in the file tree and verifies that `.stignore` contains both `!/folder` and `!/folder/**`.
 
 For privacy review:
 

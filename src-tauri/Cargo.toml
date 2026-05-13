@@ -1,6 +1,6 @@
 [package]
 name = "streamthing"
-version = "0.1.1"
+version = "0.1.2"
 description = "Desktop companion for Syncthing selective sync"
 authors = ["StreamThing contributors"]
 edition = "2021"

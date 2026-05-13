@@ -1,6 +1,6 @@
 {
   "name": "streamthing",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compagnon desktop Tauri/Solid pour piloter une sélection Syncthing via .stignore.",
   "type": "module",
   "scripts": {

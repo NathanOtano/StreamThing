@@ -2,7 +2,7 @@ import { createSignal, For, Show, createEffect, onMount } from "solid-js";
 import { fetchFiles, listFilesLocal } from "../services/api";
 import { store, toggleSelection } from "../store";
 import { matchesFilter } from "../utils/filterUtils";
-import { entryPathForParent, normalizeTreeEntry, shouldHideSystemEntry } from "../utils/fileTreeUtils";
+import { entryPathForParent, normalizeEntryType, normalizeTreeEntry, shouldHideSystemEntry } from "../utils/fileTreeUtils";
 import { invoke } from "@tauri-apps/api/core";
 import Folder from "lucide-solid/icons/folder";
 import FolderOpen from "lucide-solid/icons/folder-open";
@@ -34,7 +34,7 @@ const FileTreeNode = (props) => {
         return entryPathForParent(props.node.name, props.parentPath || "");
     };
 
-    const isDirectory = () => props.node.type === "directory";
+    const isDirectory = () => normalizeEntryType(props.node.type ?? props.node.fileType ?? props.node.file_type) === "directory";
     const isRoot = () => !props.parentPath;
 
     const fetchChildren = async () => {
@@ -66,7 +66,8 @@ const FileTreeNode = (props) => {
 
                 if (merged.has(entry.path)) {
                     const existing = merged.get(entry.path);
-                    merged.set(entry.path, { ...existing, ...entry, _source: 'both' });
+                    const mergedType = existing.type === "directory" || entry.type === "directory" ? "directory" : (entry.type || existing.type);
+                    merged.set(entry.path, { ...existing, ...entry, type: mergedType, _source: 'both' });
                     return;
                 }
 

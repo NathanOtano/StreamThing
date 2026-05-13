@@ -222,7 +222,7 @@ function Get-StreamThingExe {
         return (Resolve-Path -LiteralPath $ExePath).Path
     }
 
-    $candidate = Join-Path (Get-RepoRoot) 'src-tauri\target\release\streamthing.exe'
+    $candidate = Join-Path (Get-RepoRoot) 'src-tauri\target\release\streamthing-desktop.exe'
     if (!(Test-Path -LiteralPath $candidate)) {
         throw "StreamThing executable not found: $candidate. Run npm run build:desktop first."
     }
@@ -298,7 +298,10 @@ switch ($Command) {
             Invoke-SyncthingApi -Method 'POST' -Url "$url/rest/db/scan?folder=$($folder.Id)" -ApiKey $apiKey | Out-Null
         }
 
-        $existing = @(Get-Process streamthing -ErrorAction SilentlyContinue)
+        $existing = @(
+            Get-Process streamthing-desktop -ErrorAction SilentlyContinue
+            Get-Process streamthing -ErrorAction SilentlyContinue
+        )
         if ($existing.Count -gt 0 -and !$StopExisting) {
             throw "StreamThing is already running. Re-run with -StopExisting to relaunch on '$($folder.Id)'."
         }

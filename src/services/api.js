@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { normalizeEntryType } from "../utils/fileTreeUtils";
 
 
 export const fetchFiles = async (config, folderId, prefix) => {
@@ -37,10 +38,10 @@ export const listFilesLocal = async (basePath, subPath = "") => {
     try {
         const files = await invoke("list_files_local", { path: basePath, prefix: subPath });
         // Response is already FileNode format from Rust
-        // Fields: name, size, modTime, fileType (camelCase from serde)
+        // Fields can vary by command serializer: type, fileType, or file_type.
         return files.map(f => ({
             name: f.name,
-            type: f.fileType || "file",  // fileType from Rust (camelCase)
+            type: normalizeEntryType(f.type ?? f.fileType ?? f.file_type) || "file",
             size: f.size,
             modTime: f.modTime,
         }));

@@ -8,6 +8,11 @@ $ErrorActionPreference = 'Stop'
 $userHome = [Environment]::GetFolderPath('UserProfile')
 $cargoHome = if ($env:CARGO_HOME) { $env:CARGO_HOME } else { Join-Path $userHome '.cargo' }
 $rustupHome = if ($env:RUSTUP_HOME) { $env:RUSTUP_HOME } else { Join-Path $userHome '.rustup' }
+$cargoBin = Join-Path $cargoHome 'bin'
+
+if ((Test-Path -LiteralPath $cargoBin) -and (($env:PATH -split ';') -notcontains $cargoBin)) {
+    $env:PATH = "$cargoBin;$env:PATH"
+}
 
 $remapEntries = @(
     [pscustomobject]@{ Path = $RepoRoot; Replacement = 'streamthing-source' },

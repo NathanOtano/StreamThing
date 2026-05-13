@@ -1,4 +1,4 @@
-# StreamThing v0.1.1
+# StreamThing v0.1.2
 
 ## Highlights
 
@@ -7,6 +7,8 @@
 - Standalone CLI executable published as a release asset.
 - Release packaging now produces `SHA256SUMS.txt`.
 - Public setup docs now start from a fresh user installation path.
+- Fixes folder selection in the desktop file tree so selected folders write recursive `.stignore` include rules.
+- Reserves the installed `streamthing` command for the CLI while the desktop binary uses a separate internal executable name.
 
 ## Install
 

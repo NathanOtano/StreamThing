@@ -9,7 +9,7 @@ use std::process::{Command, Stdio};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 const APP_DIR_NAME: &str = "io.streamthing.desktop";
-const APP_EXE_NAMES: &[&str] = &["streamthing.exe", "StreamThing.exe"];
+const APP_EXE_NAMES: &[&str] = &["streamthing-desktop.exe", "streamthing.exe", "StreamThing.exe"];
 
 #[derive(Debug)]
 struct CliArgs {
@@ -616,26 +616,45 @@ fn resolve_app_exe(explicit: Option<&Path>) -> Result<PathBuf, String> {
 }
 
 fn streamthing_is_running() -> Result<bool, String> {
-    let output = Command::new("tasklist")
-        .args(["/FI", "IMAGENAME eq streamthing.exe", "/NH"])
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()
-        .map_err(|err| format!("Failed to run tasklist: {err}"))?;
-    let stdout = String::from_utf8_lossy(&output.stdout).to_ascii_lowercase();
-    Ok(stdout.contains("streamthing.exe"))
+    for exe_name in APP_EXE_NAMES {
+        let filter = format!("IMAGENAME eq {exe_name}");
+        let output = Command::new("tasklist")
+            .args(["/FI", filter.as_str(), "/NH"])
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .map_err(|err| format!("Failed to run tasklist: {err}"))?;
+        let stdout = String::from_utf8_lossy(&output.stdout).to_ascii_lowercase();
+        if stdout.contains(&exe_name.to_ascii_lowercase()) {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 
 fn stop_streamthing() -> Result<(), String> {
-    let status = Command::new("taskkill")
-        .args(["/IM", "streamthing.exe", "/F"])
-        .status()
-        .map_err(|err| format!("Failed to run taskkill: {err}"))?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err(format!("taskkill exited with {status}"))
+    for exe_name in APP_EXE_NAMES {
+        let filter = format!("IMAGENAME eq {exe_name}");
+        let output = Command::new("tasklist")
+            .args(["/FI", filter.as_str(), "/NH"])
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .map_err(|err| format!("Failed to run tasklist: {err}"))?;
+        let stdout = String::from_utf8_lossy(&output.stdout).to_ascii_lowercase();
+        if !stdout.contains(&exe_name.to_ascii_lowercase()) {
+            continue;
+        }
+
+        let status = Command::new("taskkill")
+            .args(["/IM", exe_name, "/F"])
+            .status()
+            .map_err(|err| format!("Failed to run taskkill: {err}"))?;
+        if !status.success() {
+            return Err(format!("taskkill exited with {status} for {exe_name}"));
+        }
     }
+    Ok(())
 }
 
 fn print_json<T: Serialize>(value: &T) -> Result<(), String> {

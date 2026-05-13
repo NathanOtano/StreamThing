@@ -22,13 +22,23 @@ export const displayNameForPath = (path) => {
   return parts[parts.length - 1] || normalized;
 };
 
+export const normalizeEntryType = (value) => {
+  const type = String(value ?? "").toLowerCase();
+  if (!type) return value;
+  if (type === "dir" || type === "directory" || type.includes("directory")) return "directory";
+  if (type === "file" || type.includes("file")) return "file";
+  return value;
+};
+
 export const normalizeTreeEntry = (entry, parentPath, source) => {
   const path = entryPathForParent(entry.name, parentPath);
+  const rawType = entry.type ?? entry.fileType ?? entry.file_type;
 
   return {
     ...entry,
     name: displayNameForPath(path),
     path,
+    type: normalizeEntryType(rawType),
     _source: source,
   };
 };
