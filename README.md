@@ -13,9 +13,19 @@ StreamThing does not sync files by itself. Syncthing remains the synchronization
 - Generates and saves `.stignore` rules for selective sync.
 - Requests a Syncthing scan only when you explicitly refresh, save or ask for one.
 
+## Screenshots
+
+These screenshots use neutral demo data. They do not show a real Syncthing device ID, API key, username, hostname or private folder path.
+
+![StreamThing desktop file selection](DOCS/screenshots/streamthing-main-desktop.png)
+
+![StreamThing settings dialog](DOCS/screenshots/streamthing-settings-desktop.png)
+
+![StreamThing mobile-width layout](DOCS/screenshots/streamthing-main-mobile.png)
+
 ## Install
 
-1. Download the latest Windows installer from the GitHub Releases page.
+1. Download the latest Windows installer from the [GitHub Releases page](https://github.com/NathanOtano/StreamThing/releases).
 2. Run `StreamThing_*_x64-setup.exe`.
 3. Open a new terminal.
 4. Check the installed CLI:
@@ -98,3 +108,4 @@ npm run package:release
 - [Technical notes](README.tech.md)
 - [Product and technical specs](DOCS/SPECS.md)
 - [UI and observability decision](DOCS/DECISION-UI-OBSERVABILITY.md)
+- [Syncthing forum post draft](DOCS/forum-syncthing-post.md)

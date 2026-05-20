@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "captured_at": "2026-05-20",
+  "source": "StreamThing UI rendered from the public source tree with mocked Tauri and Syncthing demo data",
+  "privacy": "No real Syncthing API key, device ID, folder ID, username, hostname, or private local path is shown.",
+  "views": [
+    {
+      "file": "streamthing-main-desktop.png",
+      "viewport": "1440x1000",
+      "state": "Main file-selection view with a neutral two-source folder tree",
+      "full_page": true
+    },
+    {
+      "file": "streamthing-settings-desktop.png",
+      "viewport": "1440x1000",
+      "state": "Settings dialog with neutral URL, masked API key, and demo folder path",
+      "full_page": true
+    },
+    {
+      "file": "streamthing-main-mobile.png",
+      "viewport": "390x844",
+      "state": "Mobile-width layout of the main file-selection view",
+      "full_page": true
+    }
+  ]
+}
